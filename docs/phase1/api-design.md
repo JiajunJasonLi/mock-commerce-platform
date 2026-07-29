@@ -58,7 +58,8 @@ Creates a new user account
 `201 Created`
 ```json
 {
-  "username": "user"
+  "username": "user",
+  "email": "test@example.com"
 }
 ```
 
