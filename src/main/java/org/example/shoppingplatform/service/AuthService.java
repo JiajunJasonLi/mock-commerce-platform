@@ -1,10 +1,15 @@
 package org.example.shoppingplatform.service;
 
+import org.example.shoppingplatform.dto.AuthenticatedLogin;
+import org.example.shoppingplatform.dto.LoginRequest;
 import org.example.shoppingplatform.dto.RegistrationRequest;
 import org.example.shoppingplatform.entity.User;
 import org.example.shoppingplatform.enums.MembershipTier;
 import org.example.shoppingplatform.exception.DuplicateEmailException;
 import org.example.shoppingplatform.repository.UserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +17,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
     public User register(RegistrationRequest request) {
@@ -38,5 +45,16 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-//     public String login(LoginRequest)
+     public AuthenticatedLogin login(LoginRequest request) {
+         Authentication authentication = authenticationManager.authenticate(
+                 UsernamePasswordAuthenticationToken.unauthenticated(
+                         request.getEmail(),
+                         request.getPassword()
+                 ));
+
+         User user = userRepository.findByEmail(authentication.getName())
+                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+         return new AuthenticatedLogin(user, authentication);
+     }
 }
