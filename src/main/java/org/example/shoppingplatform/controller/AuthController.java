@@ -40,37 +40,33 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(
+    public ResponseEntity<LoginResponse> loginUser(
             @Valid @RequestBody LoginRequest request,
             HttpServletRequest httpRequest,
             HttpServletResponse httpResponse) {
 
-        System.out.println(httpRequest);
+        // Calling the service login for returning the authentication object and user information
+        AuthenticatedLogin result = authService.login(request);
 
-        return ResponseEntity.ok("text");
+        // Create context to store the session
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-        // Calling the service login for ?
-//        AuthenticatedLogin result = authService.login(request);
-//
-//        // TODO
-//        SecurityContext context = SecurityContextHolder.createEmptyContext();
-//
-//        // TODO
-//        context.setAuthentication(result.authentication());
-//        SecurityContextHolder.setContext(context);
-//
-//        // TODO
-//        securityContextRepository.saveContext(context, httpRequest, httpResponse);
-//
-//        User user = result.user();
-//
-//        LoginResponse response = new LoginResponse(
-//                user.getUsername(),
-//                user.getEmail(),
-//                user.getMembershipTier()
-//        );
-//
-//        // TODO: Change the right status code and context
-//        return ResponseEntity.ok(response);
+        // TODO
+        context.setAuthentication(result.authentication());
+        SecurityContextHolder.setContext(context);
+        
+        // TODO
+        securityContextRepository.saveContext(context, httpRequest, httpResponse);
+
+        User user = result.user();
+
+        LoginResponse response = new LoginResponse(
+                user.getUsername(),
+                user.getEmail(),
+                user.getMembershipTier()
+        );
+
+        // TODO: Change the right status code and context
+        return ResponseEntity.ok(response);
     }
 }

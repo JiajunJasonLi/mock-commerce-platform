@@ -54,13 +54,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            AuthenticationProvider provider) throws Exception {
+            AuthenticationProvider provider,
+            SecurityContextRepository securityContextRepository) throws Exception {
         http
                 .authenticationProvider(provider)
+                .securityContext(context -> context.securityContextRepository(securityContextRepository))
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register").permitAll()
+                        .requestMatchers(
+                                "/api/auth/register",
+                                "/api/auth/login").permitAll()
                         .anyRequest().authenticated()
                 );
 
