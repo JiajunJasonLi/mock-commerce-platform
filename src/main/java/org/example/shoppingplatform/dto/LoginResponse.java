@@ -18,5 +18,15 @@ public class LoginResponse {
         this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public MembershipTier getMembershipTier() {
+        return membershipTier;
+    }
 }

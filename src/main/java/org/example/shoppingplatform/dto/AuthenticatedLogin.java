@@ -1,7 +1,7 @@
 package org.example.shoppingplatform.dto;
 
-import org.example.shoppingplatform.entity.User;
+import org.example.shoppingplatform.config.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 
-public record AuthenticatedLogin(User user, Authentication authentication) {
+public record AuthenticatedLogin(CustomUserDetails userDetails, Authentication authentication) {
 }

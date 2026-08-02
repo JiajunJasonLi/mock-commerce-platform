@@ -1,5 +1,6 @@
 package org.example.shoppingplatform.service;
 
+import org.example.shoppingplatform.config.CustomUserDetails;
 import org.example.shoppingplatform.dto.AuthenticatedLogin;
 import org.example.shoppingplatform.dto.LoginRequest;
 import org.example.shoppingplatform.dto.RegistrationRequest;
@@ -52,9 +53,9 @@ public class AuthService {
                          request.getPassword()
                  ));
 
-         User user = userRepository.findByEmail(authentication.getName())
-                 .orElseThrow(() -> new RuntimeException("User not found"));
+         CustomUserDetails userDetails =
+                 (CustomUserDetails) authentication.getPrincipal();
 
-         return new AuthenticatedLogin(user, authentication);
+         return new AuthenticatedLogin(userDetails, authentication);
      }
 }

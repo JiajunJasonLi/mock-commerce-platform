@@ -3,13 +3,12 @@ package org.example.shoppingplatform.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.example.shoppingplatform.config.CustomUserDetails;
 import org.example.shoppingplatform.dto.*;
 import org.example.shoppingplatform.entity.User;
 import org.example.shoppingplatform.service.AuthService;
-import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
@@ -51,22 +50,20 @@ public class AuthController {
         // Create context to store the session
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-        // TODO
+        // The context of the authentication
         context.setAuthentication(result.authentication());
         SecurityContextHolder.setContext(context);
-        
-        // TODO
+
         securityContextRepository.saveContext(context, httpRequest, httpResponse);
 
-        User user = result.user();
+        CustomUserDetails user = result.userDetails();
 
         LoginResponse response = new LoginResponse(
-                user.getUsername(),
+                user.getDisplayUsername(),
                 user.getEmail(),
                 user.getMembershipTier()
         );
 
-        // TODO: Change the right status code and context
         return ResponseEntity.ok(response);
     }
 }
