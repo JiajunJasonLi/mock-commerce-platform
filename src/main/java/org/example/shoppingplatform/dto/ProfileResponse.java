@@ -2,17 +2,17 @@ package org.example.shoppingplatform.dto;
 
 import org.example.shoppingplatform.enums.MembershipTier;
 
-public class LoginResponse {
+public class ProfileResponse {
 
     private String username;
     private String email;
     private MembershipTier membershipTier;
 
-    public LoginResponse() {
+    public ProfileResponse() {
 
     }
 
-    public LoginResponse(String username, String email,MembershipTier membershipTier) {
+    public ProfileResponse(String username, String email, MembershipTier membershipTier) {
         this.membershipTier = membershipTier;
         this.email = email;
         this.username = username;
