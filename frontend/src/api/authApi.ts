@@ -37,3 +37,29 @@ export async function loginUser(request: LoginRequest): Promise<ProfileResponse>
     return response.json() as Promise<ProfileResponse>;
 }
 
+export async function userProfile(): Promise<ProfileResponse> {
+    const response = await fetch(`http://localhost:8080/api/profile`, {
+        method: "GET",
+        credentials: "include"
+    })
+
+    if (!response.ok) {
+        const error: ApiError = await response.json();
+
+        throw new Error(error.message);
+    }
+
+    return response.json() as Promise<ProfileResponse>;
+}
+
+export async function userLogout() {
+    const response = await fetch(`${BASE_URL}/logout`, {
+        method: "POST",
+        credentials: "include"
+    })
+
+    if (!response.ok) {
+        throw new Error(`Logout failed with status ${response.status}`);
+    }
+}
+

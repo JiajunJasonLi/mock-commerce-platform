@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes} from "react-router";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
+import LogoutPage from "./pages/LogoutPage";
 
 function App() {
     return (
@@ -11,6 +13,9 @@ function App() {
 
             <Route path="/register" element={<RegisterPage />} />
 
+            <Route path="/profile" element={<ProfilePage />} />
+
+            <Route path="/logout" element={<LogoutPage />}/>
         </Routes>
     )
 }
