@@ -1,7 +1,10 @@
 import { useState, type SubmitEvent} from "react";
+import { useNavigate } from "react-router";
 import { loginUser } from "../api/authApi.ts";
 
 export default function LoginForm() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -23,6 +26,7 @@ export default function LoginForm() {
 
             setSuccess("Account loginned");
 
+            navigate("/profile");
         } catch(error) {
             if (error instanceof Error) {
                 setError(error.message);

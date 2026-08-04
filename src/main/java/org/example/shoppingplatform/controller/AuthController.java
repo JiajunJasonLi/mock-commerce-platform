@@ -39,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(
+    public ResponseEntity<ProfileResponse> loginUser(
             @Valid @RequestBody LoginRequest request,
             HttpServletRequest httpRequest,
             HttpServletResponse httpResponse) {
@@ -58,7 +58,7 @@ public class AuthController {
 
         CustomUserDetails user = result.userDetails();
 
-        LoginResponse response = new LoginResponse(
+        ProfileResponse response = new ProfileResponse(
                 user.getDisplayUsername(),
                 user.getEmail(),
                 user.getMembershipTier()
